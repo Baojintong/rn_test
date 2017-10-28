@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import {Text, View, TextInput, Button, ListView, RefreshControl,Image} from 'react-native';
+import React, {Component} from 'react'
+import {Text, View, TextInput, Button, ListView, RefreshControl, Image} from 'react-native';
 import {connect} from 'react-redux';
 import styles from './Styles/TestStyle';
 import BookAction from '../Redux/BookRedux'
@@ -9,21 +9,21 @@ const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 class Billboard extends Component {
 
   constructor(props) {
-    var userA = {
-      name: 'A',
-      age: 20,
-      tags: [
-        'geek',
-        'nerd',
-        'otaku'
-      ]
-    };
-    storage.save({
-      key: 'user',  // 注意:请不要在key中使用_下划线符号!
-      id: '1001',   // 注意:请不要在id中使用_下划线符号!
-      data: userA,
-      expires: 1000 * 60
-    });
+    // var userA = {
+    //   name: 'A',
+    //   age: 20,
+    //   tags: [
+    //     'geek',
+    //     'nerd',
+    //     'otaku'
+    //   ]
+    // };
+    // storage.save({
+    //   key: 'user',  // 注意:请不要在key中使用_下划线符号!
+    //   id: '1001',   // 注意:请不要在id中使用_下划线符号!
+    //   data: userA,
+    //   expires: 1000 * 60
+    // });
     super(props);
     this._refreshList();
     this.state = {
@@ -33,18 +33,29 @@ class Billboard extends Component {
     }
   }
 
-  _getList() {
+  _getList(varu) {
     if (typeof(this.state.value) !== "undefined"&&this.state.value !== "") {
-      this.props.getBookList(this.state.value);
+      this.props.getBookList(this.state.value,0);
     }
     else {
-      this.props.getBookList();
+      this.props.getBookList("undefined",this.props.pageNum);
     }
   }
 
   _refreshList() {
-    this.props.getBookList();
-    //console.warn(this.props.bbb);
+    this.props.bookResetPage();//初始化pageNum
+    this.props.getBookList("",0);
+  }
+
+  _renderRow(data){
+    let im_ui=data.src;
+    let name=data.name;
+    return(
+      <View style={styles.bookView}>
+          <Text>{name}</Text>
+          <Image style={styles.imageStyle} source={{uri:im_ui}}/>
+      </View>
+    );
   }
 
   componentWillUnmount() {
@@ -52,10 +63,10 @@ class Billboard extends Component {
 
 
   componentWillMount() {
-    console.warn(this.props.bbb);
+    //console.warn(this.props.bbb);//aaa
   }
 
-  componentDidMount(){
+  componentDidMount() {
   }
 
 
@@ -74,7 +85,9 @@ class Billboard extends Component {
           style={styles.ListView}
           dataSource={ds.cloneWithRows(this.props.bookList)}
           enableEmptySections={true}
-          renderRow={(data) => <Text>{data.num}  {data.name}  {data.money}</Text>}
+          onEndReachedThreshold={100}
+          onEndReached={() => this._getList()}
+          renderRow={(data) =>this._renderRow(data)}
           refreshControl={
             <RefreshControl
               refreshing={this.props.fetching}
@@ -104,17 +117,18 @@ class Billboard extends Component {
 // 上面代码中，Provider在根组件外面包了一层，这样一来，App的所有子组件就默认都可以拿到state了。
 // 这个大的state那就是mapStateToProps方法的参数state的来源了；
 const mapStateToProps = (state) => {
-  console.warn('state'+state.value)
   return {
     bookList: state.bookList.bookList,
     fetching: state.bookList.fetching,
-    bbb:state.bookList.aaa
+    bbb: state.bookList.aaa,
+    pageNum: state.bookList.pageNum
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getBookList: (value) => dispatch(BookAction.getBookList(value))
+    getBookList: (value,pageNum) => dispatch(BookAction.getBookList(value,pageNum)),
+    bookResetPage: () => dispatch(BookAction.bookResetPage())
   }
 }
 

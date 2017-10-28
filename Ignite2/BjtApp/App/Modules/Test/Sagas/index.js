@@ -10,9 +10,8 @@ function getPage(state) {
 }
 
 
-export function* getBookList({value}) {
-
-  let list_n= new Array();//yield call(api.getBookList,value);
+export function* getBookList({value,pageNum}) {
+  let list_n= yield call(api.getBookList,value,pageNum);
   yield put(BookAction.bookGetListSuccess(list_n));
 }
 
