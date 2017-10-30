@@ -73,7 +73,6 @@ class Billboard extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>登录</Text>
         <TextInput
           style={styles.inputText}
           placeholder={this.state.placeholder}

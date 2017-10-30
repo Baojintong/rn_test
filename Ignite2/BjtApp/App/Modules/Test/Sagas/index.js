@@ -1,6 +1,7 @@
 import {call, put, select, takeLatest} from 'redux-saga/effects';
 import BookAction, {BookTypes} from '../Redux/BookRedux';
-import RoutineApi from '../Services/BookApi';
+import UserAction, {UserTypes} from '../Redux/UserRedux';
+import RoutineApi from '../Services/UserApi';
 
 const api = RoutineApi
 
@@ -15,6 +16,14 @@ export function* getBookList({value,pageNum}) {
   yield put(BookAction.bookGetListSuccess(list_n));
 }
 
+export function* login({username,password}) {
+  let list_n= yield call(api.Login,username,password);
+  //yield put(UserAction.LoginResult());
+}
+
+
+
 export default [
-  takeLatest(BookTypes.GET_BOOK_LIST, getBookList)
+  takeLatest(BookTypes.GET_BOOK_LIST, getBookList),
+  takeLatest(UserTypes.LOGIN, login)
 ]
