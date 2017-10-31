@@ -43,7 +43,7 @@ const create = (baseURL = 'https://api.github.com/') => {
   const getRoot = () => api.get('')
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', {q: username})
-  const getData = (api_r,{username,password}) => api.get(api_r,{username,password}).then(x => checkResponse(x));
+  const getData = (api_r,obj) => api.get(api_r,obj).then(x => checkResponse(x));
 
   // ------
   // STEP 3

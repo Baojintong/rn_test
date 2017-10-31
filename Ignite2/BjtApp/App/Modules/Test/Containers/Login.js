@@ -1,32 +1,37 @@
 import React, {Component} from 'react'
-import {Text, View, TextInput, Button, ListView, RefreshControl, Image} from 'react-native';
+import {Text, View, TextInput, Button, ListView, RefreshControl, Image, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import styles from './Styles/TestStyle';
 import UserAction from '../Redux/UserRedux'
+import {navigate} from 'react-navigation'
+import HelloScreen from './HELLO'
 
 class Login extends Component {
+  static navigationOptions = {
+    headerTitle: <Text style={styles.headerText}>登录</Text>
+  };
 
   constructor(props) {
     super(props);
     this.state = {
-      placeholder_username: '用户名',
-      placeholder_password: '密码',
+      placeholder_username: "用户名",
+      placeholder_password: "密码",
       username: '',
-      password: ''
+      password: '',
+      result: false
     }
   }
 
-  _login(){
-    this.props.login(this.state.username,this.state.password);
-  }
-  _register(){
-    console.warn("_register")
+  _login() {
+    this.props.login(this.state.username, this.state.password);
   }
 
+  _register() {
+    console.warn("这是_register()")
+  }
 
   componentWillUnmount() {
   }
-
 
   componentWillMount() {
   }
@@ -34,36 +39,43 @@ class Login extends Component {
   componentDidMount() {
   }
 
+  componentWillReceiveProps(nextProps) {
+    const {navigate} = this.props.navigation;
+    if (nextProps.result === "true") {
+      navigate("HelloScreen")
+    }
+  }
+
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>登录</Text>
-        <TextInput
-          style={styles.inputText}
-          placeholder={this.state.placeholder_username}
-          value={this.state.value}
-          onChangeText={(username) => this.setState({username})}
-        />
-        <TextInput
-          style={styles.inputText}
-          placeholder={this.state.placeholder_password}
-          value={this.state.value}
-          onChangeText={(password) => this.setState({password})}
-          secureTextEntry={true}
-        />
-        <Button title="登录" onPress={()=>this._login()}/><Button title="注册" onPress={()=>this._register()}/>
-  </View>
-  )
+        <View style={styles.container}>
+          <TextInput
+            style={styles.inputText}
+            placeholder={this.state.placeholder_username}
+            value={this.state.value}
+            onChangeText={(username) => this.setState({username})}
+          />
+          <TextInput
+            style={styles.inputText}
+            placeholder={this.state.placeholder_password}
+            value={this.state.value}
+            onChangeText={(password) => this.setState({password})}
+            secureTextEntry={true}
+          />
+          <View style={styles.buttonView}>
+            <Button title="登录" onPress={() => this._login()} color="#841584"/>
+            <Button title="注册" onPress={() => this._register()} color="#841584"/>
+          </View>
+        </View>
+    )
   }
 
 }
+
 const mapStateToProps = (state) => {
   return {
-    bookList: state.bookList.bookList,
-    fetching: state.bookList.fetching,
-    bbb: state.bookList.aaa,
-    pageNum: state.bookList.pageNum
+    result: state.userRedux.result
   }
 }
 

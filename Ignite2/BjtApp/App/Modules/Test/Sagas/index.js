@@ -17,8 +17,8 @@ export function* getBookList({value,pageNum}) {
 }
 
 export function* login({username,password}) {
-  let list_n= yield call(api.Login,username,password);
-  //yield put(UserAction.LoginResult());
+  let result= yield call(api.Login,username,password);
+  yield put(UserAction.LoginResult(result.msg));
 }
 
 

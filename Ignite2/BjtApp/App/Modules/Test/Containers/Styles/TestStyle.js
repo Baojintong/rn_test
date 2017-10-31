@@ -20,5 +20,17 @@ export default StyleSheet.create({
   },
   bookView:{
     width:Dimensions.get('window').width/1.5
+  },
+  headerText:{
+    fontSize:20,
+    alignSelf:'center',
+    color:'red'
+  },
+  buttonView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width:Dimensions.get('window').width/2,
+    alignSelf:'center',
+    margin: 30
   }
 })
