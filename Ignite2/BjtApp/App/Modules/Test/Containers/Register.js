@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Text, View, TextInput, Button, ListView, RefreshControl, Image, Alert} from 'react-native';
+import {Text, View, TextInput, Button, ListView, RefreshControl, Image, Alert,TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import styles from './Styles/TestStyle';
 import UserAction from '../Redux/UserRedux'
@@ -7,8 +7,15 @@ import {navigate} from 'react-navigation'
 import HelloScreen from './HELLO'
 
 class Login extends Component {
-  static navigationOptions = {
-    headerTitle: <Text style={styles.headerText}>登录</Text>
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: <Text style={styles.headerText}>注册</Text>,
+      headerLeft: (
+        <TouchableOpacity onPress={()=>navigation.goBack()}>
+          <Image source={require('../../../Images/Icons/back-button2x.png')} style={{width: 50,height: 50}}/>
+        </TouchableOpacity>
+      ),
+    };
   };
 
   constructor(props) {
@@ -63,10 +70,6 @@ class Login extends Component {
           onChangeText={(password) => this.setState({password})}
           secureTextEntry={true}
         />
-        <View style={styles.buttonView}>
-          <Button title="登录" onPress={() => this._login()} color="#841584"/>
-          <Button title="注册" onPress={() => this._register()} color="#841584"/>
-        </View>
       </View>
     )
   }

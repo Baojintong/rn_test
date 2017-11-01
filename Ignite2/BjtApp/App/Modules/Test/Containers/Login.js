@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Text, View, TextInput, Button, ListView, RefreshControl, Image, Alert} from 'react-native';
+import {Text, View, TextInput, Button, ListView, RefreshControl, Image, Alert,TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import styles from './Styles/TestStyle';
 import UserAction from '../Redux/UserRedux'
@@ -9,9 +9,11 @@ import HelloScreen from './HELLO'
 class Login extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: '111111',
-      headerRight: (
-        <Button title={'1111'} />
+      title: <Text style={styles.headerText}>登录</Text>,
+      headerLeft: (
+        <TouchableOpacity onPress={()=>alert("关闭")}>
+          <Image source={require('../../../Images/Icons/close-button2x.png')} style={{width: 50,height: 50}}/>
+        </TouchableOpacity>
       ),
     };
   };
@@ -21,8 +23,7 @@ class Login extends Component {
       placeholder_username: "用户名",
       placeholder_password: "密码",
       username: '',
-      password: '',
-      result: false
+      password: ''
     }
   }
 
@@ -31,7 +32,8 @@ class Login extends Component {
   }
 
   _register() {
-    console.warn("这是_register()")
+    const {navigate} = this.props.navigation;
+    navigate("RegisterScreen");
   }
 
   componentWillUnmount() {
@@ -47,7 +49,11 @@ class Login extends Component {
     const {navigate} = this.props.navigation;
     if (nextProps.result === "true") {
       navigate("HelloScreen")
+    }else if(nextProps.result === "false"){
+      alert("账号密码错误","账号密码错误");
+      this.props.cleanResult();
     }
+
   }
 
 
@@ -85,7 +91,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (username, password) => dispatch(UserAction.login(username, password))
+    login: (username, password) => dispatch(UserAction.login(username, password)),
+    cleanResult:()=>dispatch(UserAction.cleanResult())
   }
 }
 

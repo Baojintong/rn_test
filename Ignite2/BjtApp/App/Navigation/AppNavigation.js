@@ -3,6 +3,7 @@ import LaunchScreen from '../Containers/LaunchScreen'
 import TestScreen from '../Modules/Test/Containers/Home'
 import LoginScreen from '../Modules/Test/Containers/Login'
 import HelloScreen from '../Modules/Test/Containers/HELLO'
+import RegisterScreen from '../Modules/Test/Containers/Register'
 
 import styles from './Styles/NavigationStyles'
 
@@ -27,6 +28,7 @@ const _DrawerNavigator = DrawerNavigator({
 const PrimaryNav = StackNavigator({
   TestScreen: { screen: TestScreen },
   LoginScreen: { screen: LoginScreen },
+  RegisterScreen: { screen: RegisterScreen },
   _DrawerNavigator:{
     screen: _DrawerNavigator,
     navigationOptions: {
