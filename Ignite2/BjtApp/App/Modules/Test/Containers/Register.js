@@ -7,14 +7,10 @@ import {navigate} from 'react-navigation'
 import HelloScreen from './HELLO'
 
 class Login extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: '111111',
-      headerRight: (
-        <Button title={'1111'} />
-      ),
-    };
+  static navigationOptions = {
+    headerTitle: <Text style={styles.headerText}>登录</Text>
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -53,25 +49,25 @@ class Login extends Component {
 
   render() {
     return (
-        <View style={styles.container}>
-          <TextInput
-            style={styles.inputText}
-            placeholder={this.state.placeholder_username}
-            value={this.state.value}
-            onChangeText={(username) => this.setState({username})}
-          />
-          <TextInput
-            style={styles.inputText}
-            placeholder={this.state.placeholder_password}
-            value={this.state.value}
-            onChangeText={(password) => this.setState({password})}
-            secureTextEntry={true}
-          />
-          <View style={styles.buttonView}>
-            <Button title="登录" onPress={() => this._login()} color="#841584"/>
-            <Button title="注册" onPress={() => this._register()} color="#841584"/>
-          </View>
+      <View style={styles.container}>
+        <TextInput
+          style={styles.inputText}
+          placeholder={this.state.placeholder_username}
+          value={this.state.value}
+          onChangeText={(username) => this.setState({username})}
+        />
+        <TextInput
+          style={styles.inputText}
+          placeholder={this.state.placeholder_password}
+          value={this.state.value}
+          onChangeText={(password) => this.setState({password})}
+          secureTextEntry={true}
+        />
+        <View style={styles.buttonView}>
+          <Button title="登录" onPress={() => this._login()} color="#841584"/>
+          <Button title="注册" onPress={() => this._register()} color="#841584"/>
         </View>
+      </View>
     )
   }
 
